@@ -1,0 +1,46 @@
+﻿@page
+@model CarBookingApp.Pages.Cars.IndexModel
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Index</h1>
+
+<p>
+    <a asp-page="Create">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Cars[0].Year)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Cars[0].Name)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model.Cars) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Year)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Name)
+            </td>
+            <td>
+                <form asp-page-handler="Delete5" method="post" asp-route-CarId="@item.Id">
+                    <a class="btn btn-warning" asp-page="./Edit" asp-route-id="@item.Id">Edit</a> |
+                    <a class="btn btn-info" asp-page="./Details" asp-route-id="@item.Id">Details</a> |
+                    <button class="btn btn-danger" onclick="return confirm('Are you sure to delete car @item.Name?')">Delete</button>
+                    <a asp-page="./Delete" asp-route-id="@item.Id">Delete</a>
+                    @*<a asp-page="./Delete" asp-route-id="@item.Id">Delete</a>*@
+                </form>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>
