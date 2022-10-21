@@ -42,9 +42,6 @@
                         <a class="btn btn-info" asp-page="./Details" asp-route-id="@item.Id">
                             <i class="fa fa-book-open" aria-hidden="true"></i>&nbsp;Details
                         </a>
-                        <button class="btn btn-danger deleteBtn" data-id="@item.Id">
-                            <i class="fa fa-trash" aria-hidden="true"></i>&nbsp;Delete JQ
-                        </button>
                         <button class="btn btn-danger" onclick="return confirm('Are you sure to delete car @item.Name?')">
                             <i class="fa fa-trash" aria-hidden="true"></i>&nbsp;Delete Jscr
                         </button>
@@ -56,30 +53,3 @@
         }
     </tbody>
 </table>
-
-<form asp-page-handler="Delete6" method="post">
-    <input type="hidden" name="CarId" id="CarId"/>
-</form>
-@section Script {
-    <script>
-        $(function () {
-            $('form').submit(function (e) {
-                e.preventDefault();
-                swal({
-                    title: "Delete Confirmation",
-                    text: "Are you sure to delete car",
-                    icon: "warning",
-                    buttons: true,
-                    dangerMode: true,
-
-                }).then((confirm) => {
-                    if (confirm) {
-                        $(this).submit();
-                    }
-                }
-                )
-            }
-            });
-
-    </script>
-}
