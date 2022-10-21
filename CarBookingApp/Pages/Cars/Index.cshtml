@@ -8,9 +8,11 @@
 <h1>Index</h1>
 
 <p>
-    <a asp-page="Create">Create New</a>
+    <a class="btn btn-primary" asp-page="Create">
+        <i class="fa fa-add" aria-hidden="true"></i> Create New
+    </a>
 </p>
-<table class="table">
+<table class="table" id="tblData">
     <thead>
         <tr>
             <th>
@@ -23,24 +25,61 @@
         </tr>
     </thead>
     <tbody>
-@foreach (var item in Model.Cars) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.Year)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Name)
-            </td>
-            <td>
-                <form asp-page-handler="Delete5" method="post" asp-route-CarId="@item.Id">
-                    <a class="btn btn-warning" asp-page="./Edit" asp-route-id="@item.Id">Edit</a> |
-                    <a class="btn btn-info" asp-page="./Details" asp-route-id="@item.Id">Details</a> |
-                    <button class="btn btn-danger" onclick="return confirm('Are you sure to delete car @item.Name?')">Delete</button>
-                    <a asp-page="./Delete" asp-route-id="@item.Id">Delete</a>
-                    @*<a asp-page="./Delete" asp-route-id="@item.Id">Delete</a>*@
-                </form>
-            </td>
-        </tr>
-}
+        @foreach (var item in Model.Cars)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Year)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Name)
+                </td>
+                <td>
+                    <form asp-page-handler="Delete5" method="post" asp-route-CarId="@item.Id">
+                        <a class="btn btn-warning" asp-page="./Edit" asp-route-id="@item.Id">
+                            <i class="fa fa-edit" aria-hidden="true"></i>&nbsp;Edit
+                        </a>
+                        <a class="btn btn-info" asp-page="./Details" asp-route-id="@item.Id">
+                            <i class="fa fa-book-open" aria-hidden="true"></i>&nbsp;Details
+                        </a>
+                        <button class="btn btn-danger deleteBtn" data-id="@item.Id">
+                            <i class="fa fa-trash" aria-hidden="true"></i>&nbsp;Delete JQ
+                        </button>
+                        <button class="btn btn-danger" onclick="return confirm('Are you sure to delete car @item.Name?')">
+                            <i class="fa fa-trash" aria-hidden="true"></i>&nbsp;Delete Jscr
+                        </button>
+                        <a asp-page="./Delete" asp-route-id="@item.Id">Delete</a>
+                        @*<a asp-page="./Delete" asp-route-id="@item.Id">Delete</a>*@
+                    </form>
+                </td>
+            </tr>
+        }
     </tbody>
 </table>
+
+<form asp-page-handler="Delete6" method="post">
+    <input type="hidden" name="CarId" id="CarId"/>
+</form>
+@section Script {
+    <script>
+        $(function () {
+            $('form').submit(function (e) {
+                e.preventDefault();
+                swal({
+                    title: "Delete Confirmation",
+                    text: "Are you sure to delete car",
+                    icon: "warning",
+                    buttons: true,
+                    dangerMode: true,
+
+                }).then((confirm) => {
+                    if (confirm) {
+                        $(this).submit();
+                    }
+                }
+                )
+            }
+            });
+
+    </script>
+}

@@ -19,6 +19,7 @@ namespace CarBookingApp.Pages.Cars
         }
 
         public IList<Car> Cars { get;set; }
+        int intcount;
 
         public async Task OnGetAsync()
         {
@@ -40,7 +41,23 @@ namespace CarBookingApp.Pages.Cars
             }
 
             return RedirectToPage("./Index");
-            return RedirectToPage("");
+        }
+        public async Task<IActionResult> OnPostDelete6Async(int? CarId)
+        {
+            if (CarId == null)
+            {
+                return NotFound();
+            }
+
+            var Car = await _context.Cars.FindAsync(CarId);
+
+            if (Car != null)
+            {
+                _context.Cars.Remove(Car);
+                await _context.SaveChangesAsync();
+            }
+
+            return RedirectToPage("./Index");
         }
     }
 }
