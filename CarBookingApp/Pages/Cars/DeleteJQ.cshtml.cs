@@ -9,21 +9,20 @@ using CareBookingAppData;
 
 namespace CarBookingApp.Pages.Cars
 {
-    public class IndexModel : PageModel
+    public class DeleteJQModel : PageModel
     {
         private readonly CareBookingAppData.CarBookingAppDbContext _context;
 
-        public IndexModel(CareBookingAppData.CarBookingAppDbContext context)
+        public DeleteJQModel(CareBookingAppData.CarBookingAppDbContext context)
         {
             _context = context;
         }
 
-        public IList<Car> Cars { get;set; }
-        int intcount;
+        public IList<Car> Car { get;set; }
 
         public async Task OnGetAsync()
         {
-            Cars = await _context.Cars.ToListAsync();
+            Car = await _context.Cars.ToListAsync();
         }
         public async Task<IActionResult> OnPostDelete5Async(int? CarId)
         {
@@ -42,6 +41,5 @@ namespace CarBookingApp.Pages.Cars
 
             return RedirectToPage("./Index");
         }
-        
     }
 }
