@@ -5,9 +5,10 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
+using CarBookingAppData;
 using CareBookingAppData;
 
-namespace CarBookingApp.Pages.Cars
+namespace CarBookingApp.Pages.Makes
 {
     public class DetailsModel : PageModel
     {
@@ -18,7 +19,7 @@ namespace CarBookingApp.Pages.Cars
             _context = context;
         }
 
-        public Car Car { get; set; }
+        public Make Make { get; set; }
 
         public async Task<IActionResult> OnGetAsync(int? id)
         {
@@ -27,15 +28,12 @@ namespace CarBookingApp.Pages.Cars
                 return NotFound();
             }
 
-            //Car = await _context.Cars.FirstOrDefaultAsync(m => m.Id == id);
-            Car = await _context.Cars.Include(q=> q.Make).Include(q => q.Style).FirstOrDefaultAsync(m => m.Id == id);
-                       
+            Make = await _context.Makes.FirstOrDefaultAsync(m => m.Id == id);
 
-            if (Car == null)
+            if (Make == null)
             {
                 return NotFound();
             }
-           
             return Page();
         }
     }

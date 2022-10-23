@@ -1,0 +1,37 @@
+Sweet alert could not implement in the DeleteJQ
+
+<form>
+                        <button class="btn btn-danger" onclick="return fnCheck()">
+                            <i class="fa fa-trash" aria-hidden="true"></i>&nbsp;Delete JQuery
+                        </button> 
+
+</form
+
+@section Scripts {
+    <script>
+        $(function () {
+            //$('form').submit(function (e) {
+            //e.preventDefault();
+            $('deleteBtn').click(function (e) {
+                swal({
+                    title: "Delete Confirmation",
+                    text: "Are you sure to delete",
+                    icon: "warning",
+                    buttons: true,
+                    dangerMode: true
+                }).then((confirm => {
+                    if (confirm) {
+                        //$(this).submit();
+                        var btn = $(this);
+                        var id = btn.data("id");
+                        $('#carid').val(id);
+                        $('#deleteFrom').submit();
+                    }
+                }));
+            });
+        }
+    </script>
+}
+
+
+

@@ -16,10 +16,16 @@
     <thead>
         <tr>
             <th>
+                @Html.DisplayNameFor(model => model.Cars[0].Make.Name)
+            </th>
+            <th>
                 @Html.DisplayNameFor(model => model.Cars[0].Year)
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.Cars[0].Name)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Cars[0].Style.Name)
             </th>
             <th></th>
         </tr>
@@ -27,29 +33,35 @@
     <tbody>
         @foreach (var item in Model.Cars)
         {
-            <tr>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Year)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Name)
-                </td>
-                <td>
-                    <form asp-page-handler="Delete5" method="post" asp-route-CarId="@item.Id">
-                        <a class="btn btn-warning" asp-page="./Edit" asp-route-id="@item.Id">
-                            <i class="fa fa-edit" aria-hidden="true"></i>&nbsp;Edit
-                        </a>
-                        <a class="btn btn-info" asp-page="./Details" asp-route-id="@item.Id">
-                            <i class="fa fa-book-open" aria-hidden="true"></i>&nbsp;Details
-                        </a>
-                        <button class="btn btn-danger" onclick="return confirm('Are you sure to delete car @item.Name?')">
-                            <i class="fa fa-trash" aria-hidden="true"></i>&nbsp;Delete Jscr
-                        </button>
-                        <a asp-page="./Delete" asp-route-id="@item.Id">Delete</a>
-                        @*<a asp-page="./Delete" asp-route-id="@item.Id">Delete</a>*@
-                    </form>
-                </td>
-            </tr>
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Make.Name)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Year)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Name)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Style.Name)
+            </td>
+            <td>
+                <form asp-page-handler="Delete5" method="post" asp-route-CarId="@item.Id">
+                    <a class="btn btn-warning" asp-page="./Edit" asp-route-id="@item.Id">
+                        <i class="fa fa-edit" aria-hidden="true"></i>&nbsp;Edit
+                    </a>
+                    <a class="btn btn-info" asp-page="./Details" asp-route-id="@item.Id">
+                        <i class="fa fa-book-open" aria-hidden="true"></i>&nbsp;Details
+                    </a>
+                    <button class="btn btn-danger" onclick="return confirm('Are you sure to delete car @item.Name?')">
+                        <i class="fa fa-trash" aria-hidden="true"></i>&nbsp;Delete Jscr
+                    </button>
+                    <a asp-page="./Delete" asp-route-id="@item.Id">Delete</a>
+                    @*<a asp-page="./Delete" asp-route-id="@item.Id">Delete</a>*@
+                </form>
+            </td>
+        </tr>
         }
     </tbody>
 </table>

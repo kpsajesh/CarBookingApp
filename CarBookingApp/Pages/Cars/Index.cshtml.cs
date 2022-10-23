@@ -19,11 +19,12 @@ namespace CarBookingApp.Pages.Cars
         }
 
         public IList<Car> Cars { get;set; }
-        int intcount;
+        //int intcount;
 
         public async Task OnGetAsync()
         {
-            Cars = await _context.Cars.ToListAsync();
+            //Cars = await _context.Cars.ToListAsync();
+            Cars = await _context.Cars.Include(q=> q.Make).Include(q => q.Style).ToListAsync();
         }
         public async Task<IActionResult> OnPostDelete5Async(int? CarId)
         {

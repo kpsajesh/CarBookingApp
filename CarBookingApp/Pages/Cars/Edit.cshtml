@@ -10,6 +10,13 @@
     <div class="col-md-4">
         <form method="post">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="Cars.MakeId" class="control-label"></label>
+                <select class="form-control" asp-for="Cars.MakeId" asp-items="Model.Makes">
+                    <option>Select Make</option>
+                </select>
+                <span asp-validation-for="Cars.MakeId" class="text-danger"></span>
+            </div>
             <input type="hidden" asp-for="Cars.Id" />
             <div class="form-group">
                 <label asp-for="Cars.Year" class="control-label"></label>
@@ -20,6 +27,13 @@
                 <label asp-for="Cars.Name" class="control-label"></label>
                 <input asp-for="Cars.Name" class="form-control" />
                 <span asp-validation-for="Cars.Name" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Cars.StyleId" class="control-label"></label>
+                <select class="form-control" asp-for="Cars.StyleId" asp-items="Model.Styles">
+                    <option>Select Style</option>
+                </select>
+                <span asp-validation-for="Cars.MakeId" class="text-danger"></span>
             </div>
             <div class="form-group">
                 @*<input type="submit" value="Save" class="btn btn-warning"  />*@

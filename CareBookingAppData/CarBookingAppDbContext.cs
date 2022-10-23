@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using CarBookingAppData;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,5 +15,7 @@ namespace CareBookingAppData
 
         }
         public DbSet<Car> Cars { get; set; }
+        public DbSet<Make> Makes { get; set; }
+        public DbSet<Style> Styles{ get; set; }
     }
 }

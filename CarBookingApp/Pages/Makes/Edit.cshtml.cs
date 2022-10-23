@@ -6,9 +6,10 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
+using CarBookingAppData;
 using CareBookingAppData;
 
-namespace CarBookingApp.Pages.Cars
+namespace CarBookingApp.Pages.Makes
 {
     public class EditModel : PageModel
     {
@@ -20,27 +21,21 @@ namespace CarBookingApp.Pages.Cars
         }
 
         [BindProperty]
-        public Car Cars { get; set; }
-        public SelectList Makes { get; set; }
-        public SelectList Styles { get; set; }
+        public Make Make { get; set; }
 
         public async Task<IActionResult> OnGetAsync(int? id)
-        {   
+        {
             if (id == null)
             {
                 return NotFound();
             }
 
-            Cars = await _context.Cars.FirstOrDefaultAsync(m => m.Id == id);
-            
+            Make = await _context.Makes.FirstOrDefaultAsync(m => m.Id == id);
 
-            if (Cars == null)
+            if (Make == null)
             {
                 return NotFound();
             }
-
-            Makes = new SelectList(_context.Makes.ToList(), "Id", "Name");
-            Styles = new SelectList(_context.Styles.ToList(), "Id", "Name");
             return Page();
         }
 
@@ -53,7 +48,7 @@ namespace CarBookingApp.Pages.Cars
                 return Page();
             }
 
-            _context.Attach(Cars).State = EntityState.Modified;
+            _context.Attach(Make).State = EntityState.Modified;
 
             try
             {
@@ -61,7 +56,7 @@ namespace CarBookingApp.Pages.Cars
             }
             catch (DbUpdateConcurrencyException)
             {
-                if (!CarExists(Cars.Id))
+                if (!MakeExists(Make.Id))
                 {
                     return NotFound();
                 }
@@ -74,9 +69,9 @@ namespace CarBookingApp.Pages.Cars
             return RedirectToPage("./Index");
         }
 
-        private bool CarExists(int id)
+        private bool MakeExists(int id)
         {
-            return _context.Cars.Any(e => e.Id == id);
+            return _context.Makes.Any(e => e.Id == id);
         }
     }
 }
