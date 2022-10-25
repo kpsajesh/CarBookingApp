@@ -8,7 +8,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using CareBookingAppData;
 
-namespace CarBookingApp.Pages.Cars
+namespace CarBookingApp.Pages.CarModels
 {
     public class EditModel : PageModel
     {
@@ -20,29 +20,21 @@ namespace CarBookingApp.Pages.Cars
         }
 
         [BindProperty]
-        public Car Cars { get; set; }
-        public SelectList Makes { get; set; }
-        public SelectList Styles { get; set; }
-        public SelectList CarModels { get; set; }
+        public CarModel CarModel { get; set; }
 
         public async Task<IActionResult> OnGetAsync(int? id)
-        {   
+        {
             if (id == null)
             {
                 return NotFound();
             }
 
-            Cars = await _context.Cars.FirstOrDefaultAsync(m => m.Id == id);
-            
+            CarModel = await _context.CarModels.FirstOrDefaultAsync(m => m.Id == id);
 
-            if (Cars == null)
+            if (CarModel == null)
             {
                 return NotFound();
             }
-
-            /*Makes = new SelectList(_context.Makes.ToList(), "Id", "Name");
-            Styles = new SelectList(_context.Styles.ToList(), "Id", "Name");*/
-            await LoadDDL();
             return Page();
         }
 
@@ -52,16 +44,12 @@ namespace CarBookingApp.Pages.Cars
         {
             if (!ModelState.IsValid)
             {
-                /*Makes = new SelectList(_context.Makes.ToList(), "Id", "Name");
-                Styles = new SelectList(_context.Styles.ToList(), "Id", "Name");*/
-                await LoadDDL();
                 return Page();
             }
 
-            Cars.UpdatedBy = "Sajesh";
-            Cars.UpdatedDate = DateTime.Now;
-
-            _context.Attach(Cars).State = EntityState.Modified;
+            CarModel.UpdatedBy = "Sajesh";
+            CarModel.UpdatedDate = DateTime.Now;
+            _context.Attach(CarModel).State = EntityState.Modified;
 
             try
             {
@@ -69,7 +57,7 @@ namespace CarBookingApp.Pages.Cars
             }
             catch (DbUpdateConcurrencyException)
             {
-                if (!CarExists(Cars.Id))
+                if (!CarModelExists(CarModel.Id))
                 {
                     return NotFound();
                 }
@@ -82,15 +70,9 @@ namespace CarBookingApp.Pages.Cars
             return RedirectToPage("./Index");
         }
 
-        private bool CarExists(int id)
+        private bool CarModelExists(int id)
         {
-            return _context.Cars.Any(e => e.Id == id);
-        }
-        private async Task LoadDDL()
-        {
-            Makes = new SelectList(await _context.Makes.ToListAsync(), "Id", "Name");
-            Styles = new SelectList(await _context.Styles.ToListAsync(), "Id", "Name");
-            CarModels = new SelectList(await _context.CarModels.ToListAsync(), "Id", "Name");
+            return _context.CarModels.Any(e => e.Id == id);
         }
     }
 }

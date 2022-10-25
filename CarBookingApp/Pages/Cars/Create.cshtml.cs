@@ -23,6 +23,7 @@ namespace CarBookingApp.Pages.Cars
         public Car Car { get; set; }
         public SelectList Makes { get; set; }
         public SelectList Styles { get; set; }
+        public SelectList CarModels { get; set; }
 
         public async Task<IActionResult> OnGet()
         {
@@ -55,6 +56,7 @@ namespace CarBookingApp.Pages.Cars
         {
             Makes = new SelectList(await _context.Makes.ToListAsync(),"Id", "Name");
             Styles = new SelectList(await _context.Styles.ToListAsync(), "Id", "Name");
+            CarModels = new SelectList(await _context.CarModels.ToListAsync(), "Id", "Name");
         }
     }
 }

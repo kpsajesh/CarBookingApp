@@ -19,6 +19,9 @@
                 @Html.DisplayNameFor(model => model.Cars[0].Make.Name)
             </th>
             <th>
+                @Html.DisplayNameFor(model => model.Cars[0].CarModel.Name)
+            </th>
+            <th>
                 @Html.DisplayNameFor(model => model.Cars[0].Year)
             </th>
             <th>
@@ -39,6 +42,9 @@
         <tr>
             <td>
                 @Html.DisplayFor(modelItem => item.Make.Name)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.CarModel.Name)
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.Year)

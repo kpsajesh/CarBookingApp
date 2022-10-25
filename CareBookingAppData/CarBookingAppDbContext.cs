@@ -17,6 +17,6 @@ namespace CareBookingAppData
         public DbSet<Car> Cars { get; set; }
         public DbSet<Make> Makes { get; set; }
         public DbSet<Style> Styles{ get; set; }
-        public DbSet<CarModel> CarModel { get; set; }
+        public DbSet<CarModel> CarModels { get; set; }
     }
 }
