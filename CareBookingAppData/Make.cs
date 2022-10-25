@@ -8,9 +8,9 @@ using System.Threading.Tasks;
 
 namespace CarBookingAppData
 {
-    public class Make
+    public class Make:BaseDomainEntity
     {
-        public int Id { get; set; }
+        //public int Id { get; set; } //commented as it is inherited from the BaseDomainEntity class
 
         [Required]
         [Display(Name = "Make")]

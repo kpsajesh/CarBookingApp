@@ -35,6 +35,9 @@ namespace CarBookingApp.Pages.Makes
                 return Page();
             }
 
+            Make.CreatedBy = "Sajesh";
+            Make.CreatedDate = DateTime.Now;
+
             _context.Makes.Add(Make);
             await _context.SaveChangesAsync();
 

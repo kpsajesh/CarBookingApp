@@ -36,6 +36,19 @@
                 <span asp-validation-for="Cars.MakeId" class="text-danger"></span>
             </div>
             <div class="form-group">
+                <label asp-for="Cars.RegnNo" class="control-label"></label>
+                <input asp-for="Cars.RegnNo" class="form-control" />
+                <span asp-validation-for="Cars.RegnNo" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Cars.CreatedBy" class="control-label"></label>
+                <input id="1" asp-for="Cars.CreatedBy" class="control-label my-label-class" type="datetime" />
+            </div>
+            <div class="form-group">
+                <label asp-for="Cars.CreatedDate" class="control-label"></label>
+                <input id="1" asp-for="Cars.CreatedDate" class="control-label my-label-class" type="datetime" />
+            </div>
+            <div class="form-group">
                 @*<input type="submit" value="Save" class="btn btn-warning"  />*@
                 <button class="btn btn-warning" type="submit">
                     <i class="fa fa-save" aria-hidden="true"></i> Save

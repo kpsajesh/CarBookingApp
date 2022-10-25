@@ -4,14 +4,16 @@ using CareBookingAppData;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace CareBookingAppData.Migrations
 {
     [DbContext(typeof(CarBookingAppDbContext))]
-    partial class CarBookingAppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20221025113953_CarAddingLogFields")]
+    partial class CarAddingLogFields
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -82,10 +84,6 @@ namespace CareBookingAppData.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<int?>("CarModelId")
-                        .IsRequired()
-                        .HasColumnType("int");
-
                     b.Property<string>("CreatedBy")
                         .HasColumnType("nvarchar(max)");
 
@@ -101,6 +99,7 @@ namespace CareBookingAppData.Migrations
                         .HasColumnType("nvarchar(15)");
 
                     b.Property<string>("RegnNo")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<int?>("StyleId")
@@ -118,8 +117,6 @@ namespace CareBookingAppData.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("CarModelId");
-
                     b.HasIndex("MakeId");
 
                     b.HasIndex("StyleId");
@@ -127,42 +124,8 @@ namespace CareBookingAppData.Migrations
                     b.ToTable("Cars");
                 });
 
-            modelBuilder.Entity("CareBookingAppData.CarModel", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<string>("CreatedBy")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<DateTime>("CreatedDate")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("UpdatedBy")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<DateTime>("UpdatedDate")
-                        .HasColumnType("datetime2");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("CarModel");
-                });
-
             modelBuilder.Entity("CareBookingAppData.Car", b =>
                 {
-                    b.HasOne("CareBookingAppData.CarModel", "CarModel")
-                        .WithMany("Cars")
-                        .HasForeignKey("CarModelId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
                     b.HasOne("CarBookingAppData.Make", "Make")
                         .WithMany("Cars")
                         .HasForeignKey("MakeId")
@@ -175,8 +138,6 @@ namespace CareBookingAppData.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("CarModel");
-
                     b.Navigation("Make");
 
                     b.Navigation("Style");
@@ -188,11 +149,6 @@ namespace CareBookingAppData.Migrations
                 });
 
             modelBuilder.Entity("CarBookingAppData.Style", b =>
-                {
-                    b.Navigation("Cars");
-                });
-
-            modelBuilder.Entity("CareBookingAppData.CarModel", b =>
                 {
                     b.Navigation("Cars");
                 });

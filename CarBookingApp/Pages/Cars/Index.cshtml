@@ -27,6 +27,9 @@
             <th>
                 @Html.DisplayNameFor(model => model.Cars[0].Style.Name)
             </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Cars[0].RegnNo)
+            </th>
             <th></th>
         </tr>
     </thead>
@@ -45,6 +48,9 @@
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.Style.Name)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.RegnNo)
             </td>
             <td>
                 <form asp-page-handler="Delete5" method="post" asp-route-CarId="@item.Id">

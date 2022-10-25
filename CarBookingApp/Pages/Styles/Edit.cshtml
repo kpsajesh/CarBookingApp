@@ -20,6 +20,10 @@
                 <span asp-validation-for="Style.Name" class="text-danger"></span>
             </div>
             <div class="form-group">
+                <label asp-for="Style.CreatedDate" class="control-label"></label>
+                <input id="1" asp-for="Style.CreatedDate" class="control-label my-label-class" type="datetime" />
+            </div>
+            <div class="form-group">
                 <input type="submit" value="Save" class="btn btn-primary" />
             </div>
         </form>

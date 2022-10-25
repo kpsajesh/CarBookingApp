@@ -48,6 +48,9 @@ namespace CarBookingApp.Pages.Styles
                 return Page();
             }
 
+            Style.UpdatedBy = "Sajesh";
+            Style.UpdatedDate = DateTime.Now;
+
             _context.Attach(Style).State = EntityState.Modified;
 
             try

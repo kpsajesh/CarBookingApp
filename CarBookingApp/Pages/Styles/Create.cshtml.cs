@@ -34,6 +34,8 @@ namespace CarBookingApp.Pages.Styles
             {
                 return Page();
             }
+            Style.CreatedBy = "Sajesh";
+            Style.CreatedDate = DateTime.Now;
 
             _context.Styles.Add(Style);
             await _context.SaveChangesAsync();

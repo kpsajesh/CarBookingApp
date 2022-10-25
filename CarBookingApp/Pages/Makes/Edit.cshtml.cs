@@ -20,6 +20,8 @@ namespace CarBookingApp.Pages.Makes
             _context = context;
         }
 
+        DateTime dtCreatedDate;
+
         [BindProperty]
         public Make Make { get; set; }
 
@@ -47,6 +49,9 @@ namespace CarBookingApp.Pages.Makes
             {
                 return Page();
             }
+
+            Make.UpdatedBy= "Sajesh";
+            Make.UpdatedDate = DateTime.Now;
 
             _context.Attach(Make).State = EntityState.Modified;
 

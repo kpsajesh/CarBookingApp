@@ -4,14 +4,16 @@ using CareBookingAppData;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace CareBookingAppData.Migrations
 {
     [DbContext(typeof(CarBookingAppDbContext))]
-    partial class CarBookingAppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20221025122722_AddedModelTbl")]
+    partial class AddedModelTbl
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -83,7 +85,6 @@ namespace CareBookingAppData.Migrations
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<int?>("CarModelId")
-                        .IsRequired()
                         .HasColumnType("int");
 
                     b.Property<string>("CreatedBy")
@@ -93,6 +94,10 @@ namespace CareBookingAppData.Migrations
                         .HasColumnType("datetime2");
 
                     b.Property<int>("MakeId")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("ModelId")
+                        .IsRequired()
                         .HasColumnType("int");
 
                     b.Property<string>("Name")
@@ -159,9 +164,7 @@ namespace CareBookingAppData.Migrations
                 {
                     b.HasOne("CareBookingAppData.CarModel", "CarModel")
                         .WithMany("Cars")
-                        .HasForeignKey("CarModelId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("CarModelId");
 
                     b.HasOne("CarBookingAppData.Make", "Make")
                         .WithMany("Cars")

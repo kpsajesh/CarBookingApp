@@ -39,8 +39,9 @@ namespace CarBookingApp.Pages.Cars
                 return NotFound();
             }
 
-            Makes = new SelectList(_context.Makes.ToList(), "Id", "Name");
-            Styles = new SelectList(_context.Styles.ToList(), "Id", "Name");
+            /*Makes = new SelectList(_context.Makes.ToList(), "Id", "Name");
+            Styles = new SelectList(_context.Styles.ToList(), "Id", "Name");*/
+            await LoadDDL();
             return Page();
         }
 
@@ -50,8 +51,14 @@ namespace CarBookingApp.Pages.Cars
         {
             if (!ModelState.IsValid)
             {
+                /*Makes = new SelectList(_context.Makes.ToList(), "Id", "Name");
+                Styles = new SelectList(_context.Styles.ToList(), "Id", "Name");*/
+                await LoadDDL();
                 return Page();
             }
+
+            Cars.UpdatedBy = "Sajesh";
+            Cars.UpdatedDate = DateTime.Now;
 
             _context.Attach(Cars).State = EntityState.Modified;
 
@@ -77,6 +84,11 @@ namespace CarBookingApp.Pages.Cars
         private bool CarExists(int id)
         {
             return _context.Cars.Any(e => e.Id == id);
+        }
+        private async Task LoadDDL()
+        {
+            Makes = new SelectList(await _context.Makes.ToListAsync(), "Id", "Name");
+            Styles = new SelectList(await _context.Styles.ToListAsync(), "Id", "Name");
         }
     }
 }

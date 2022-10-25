@@ -32,7 +32,12 @@
                 <select class="form-control" asp-for="Car.StyleId" asp-items="Model.Styles">
                     <option>Select Style</option>
                 </select>
-                <span asp-validation-for="Car.MakeId" class="text-danger"></span>
+                <span asp-validation-for="Car.StyleId" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Car.RegnNo" class="control-label"></label>
+                <input asp-for="Car.RegnNo" class="form-control" />
+                <span asp-validation-for="Car.RegnNo" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <button class="btn btn-success" type="submit">

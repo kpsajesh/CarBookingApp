@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using CareBookingAppData;
+using Microsoft.EntityFrameworkCore;
 
 namespace CarBookingApp.Pages.Cars
 {
@@ -23,10 +24,11 @@ namespace CarBookingApp.Pages.Cars
         public SelectList Makes { get; set; }
         public SelectList Styles { get; set; }
 
-        public IActionResult OnGet()
+        public async Task<IActionResult> OnGet()
         {
-            Makes = new SelectList(_context.Makes.ToList(), "Id", "Name");
-            Styles = new SelectList(_context.Styles.ToList(), "Id", "Name");
+            /*Makes = new SelectList(_context.Makes.ToList(), "Id", "Name");
+            Styles = new SelectList(_context.Styles.ToList(), "Id", "Name");*/
+            await LoadDDL();
             return Page();
         }
 
@@ -35,13 +37,24 @@ namespace CarBookingApp.Pages.Cars
         {
             if (!ModelState.IsValid)
             {
+                /*Makes = new SelectList(_context.Makes.ToList(), "Id", "Name");
+                Styles = new SelectList(_context.Styles.ToList(), "Id", "Name");*/
+                await LoadDDL();
                 return Page();
             }
+            Car.CreatedBy = "Sajesh";
+            Car.CreatedDate = DateTime.Now;
 
             _context.Cars.Add(Car);
             await _context.SaveChangesAsync();
 
             return RedirectToPage("./Index");
+        }
+
+        private async Task LoadDDL()
+        {
+            Makes = new SelectList(await _context.Makes.ToListAsync(),"Id", "Name");
+            Styles = new SelectList(await _context.Styles.ToListAsync(), "Id", "Name");
         }
     }
 }
