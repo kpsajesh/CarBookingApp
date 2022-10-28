@@ -22,6 +22,7 @@
                 <select id="DDLCarModel" class="form-control" asp-for="Cars.CarModelId">
                 </select>
                 <span asp-validation-for="Cars.CarModelId" class="text-danger"></span>
+                <input type="hidden" name="hdnModelID" id="hdnModelID" value="@Model.Cars.CarModelId"/>
             </div>
             <input type="hidden" asp-for="Cars.Id" />
             <div class="form-group">
@@ -67,9 +68,20 @@
 
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
-    
-<script>
-    $('#DDLCarMake').change(function () {
+    <script src="~/js/CascadingDdlCarScript.js" modelId="2"></script>
+
+
+    <script>
+        $('#DDLCarMake').change(function () {
+            fnLoadChildDDl('DDLCarMake', 'DDLCarModel', 'Select Model', 'Edit?handler=CarModels');
+
+        });
+
+        $(document).ready(function () {
+            fnLoadChildDDlSelected('DDLCarMake', 'DDLCarModel', 'Select Model', 'Edit?handler=CarModels','hdnModelID');
+        });
+
+    @*$('#DDLCarMake').change(function () {
         var CarMakeID = $(this).val();
         console.log(CarMakeID);
         $('#DDLCarModel').html('<option>Select Model</option>');
@@ -79,13 +91,13 @@
 
             $.each(data, function (key, value) {
                 var option = $('<option></option>').attr('value', value.id).text(value.name);
-                
+
                 $('#DDLCarModel').append(option);
             });
         });
-    });
+    });*@
 
-    $(document).ready(function () {
+    @*$(document).ready(function () {
         var CarMakeID = $('#DDLCarMake :selected').val();
         console.log(CarMakeID);
         $('#DDLCarModel').html('<option>Select Model</option>');
@@ -102,6 +114,6 @@
                 $('#DDLCarModel').append(option);
             });
         });
-    });
-</script>
+    });*@
+    </script>
 }

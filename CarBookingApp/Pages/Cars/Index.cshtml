@@ -66,11 +66,10 @@
                         <a class="btn btn-info" asp-page="./Details" asp-route-id="@item.Id">
                             <i class="fa fa-book-open" aria-hidden="true"></i>&nbsp;Details
                         </a>
-                        <button class="btn btn-danger deleteBtn" data-id="@item.Id">
-                            <i class="fa fa-trash" aria-hidden="true"></i>&nbsp;Delete JQuery
+                        <button class="btn btn-danger deleteBtn" data-id="@item.Id" data-name="@item.RegnNo">
+                            <i class="fa fa-trash" aria-hidden="true"></i>&nbsp;Delete
                         </button>
                         <a asp-page="./Delete" asp-route-id="@item.Id">Delete</a>
-                        @*<a asp-page="./Delete" asp-route-id="@item.Id">Delete</a>*@
                 </td>
             </tr>
         }
@@ -80,7 +79,6 @@
 <form id="deleteForm" asp-page-handler="Delete5" method="post">
     <input type="hidden" name="carid" id="carid"/>
 </form>
-
     
 @*<form asp-page-handler="Delete5" method="post" asp-route-CarId="@item.Id">
     <button class="btn btn-danger" onclick="return confirm('Are you sure to delete car @item.Name?')">
@@ -94,18 +92,21 @@
         <script>
             $(function () {
                 $('.deleteBtn').click(function (e) { // enters to this function when a button is click having the class "deleteBtn"
+                    var btn = $(this);
+                    var name = btn.data("name")
+
                     swal({
-                        title: "Are you sure?", // sweet alert parameters
-                        text: "Are you sure to delete",
+                        title: "Delete?", // sweet alert parameters
+                        text: "Are you sure to delete car Regn.No:" + name +"?",
                         icon: "warning",
                         buttons: true,
                         dangerMode: true
                     }).then((confirm) => { // enters if clicked OK in the sweet alert
                         if (confirm) {
-                            var btn = $(this);
                             var id = btn.data("id") @*We have assigned the primary key as @item.Id in the button, so it will be bound to each button as id and this primary key and it is fetching.*@
                             $('#carid').val(id); //The primary key is assigning to the hidden control
                             $('#deleteForm').submit(); // submitting the form
+                            var id = btn.data("name")
 
                         }
                     });
