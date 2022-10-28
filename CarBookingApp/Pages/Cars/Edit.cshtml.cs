@@ -90,7 +90,7 @@ namespace CarBookingApp.Pages.Cars
         {
             Makes = new SelectList(await _context.Makes.ToListAsync(), "Id", "Name");
             Styles = new SelectList(await _context.Styles.ToListAsync(), "Id", "Name");
-            CarModels = new SelectList(await _context.CarModels.ToListAsync(), "Id", "Name");
+            /*CarModels = new SelectList(await _context.CarModels.ToListAsync(), "Id", "Name");*/
         }
         public async Task<JsonResult> OnGetCarModels(int CarMakeID)
         {
