@@ -22,7 +22,9 @@ namespace CarBookingApp.Pages.CarModels
 
         public async Task OnGetAsync()
         {
-            CarModel = await _context.CarModels.ToListAsync();
+            CarModel = await _context.CarModels
+                .Include(m => m.Make)
+                .ToListAsync();
         }
     }
 }

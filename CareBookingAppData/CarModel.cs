@@ -7,8 +7,12 @@ namespace CareBookingAppData
     public class CarModel:BaseDomainEntity
     {
         [Required]
-        [Display(Name = "Model")]
+        [Display(Name = "Car Model")]
         public string Name { get; set; }
+
+        public int? MakeId { get; set; }
+        public virtual Make Make { get; set; }
+
         public virtual List<Car> Cars { get; set; }
     }
 }

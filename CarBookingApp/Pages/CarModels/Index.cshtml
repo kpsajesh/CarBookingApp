@@ -14,6 +14,9 @@
     <thead>
         <tr>
             <th>
+                @Html.DisplayNameFor(model => model.CarModel[0].Make)
+            </th>
+            <th>
                 @Html.DisplayNameFor(model => model.CarModel[0].Name)
             </th>
             <th>
@@ -34,6 +37,9 @@
     <tbody>
 @foreach (var item in Model.CarModel) {
         <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Make.Name)
+            </td>
             <td>
                 @Html.DisplayFor(modelItem => item.Name)
             </td>

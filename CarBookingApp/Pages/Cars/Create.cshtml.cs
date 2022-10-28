@@ -56,7 +56,34 @@ namespace CarBookingApp.Pages.Cars
         {
             Makes = new SelectList(await _context.Makes.ToListAsync(),"Id", "Name");
             Styles = new SelectList(await _context.Styles.ToListAsync(), "Id", "Name");
-            CarModels = new SelectList(await _context.CarModels.ToListAsync(), "Id", "Name");
+            /*CarModels = new SelectList(await _context.CarModels.ToListAsync(), "Id", "Name");*/
         }
+        public async Task<JsonResult> OnGetCarModels(int CarMakeID)
+        {
+            var models = await _context.CarModels
+                .Where(q => q.MakeId == CarMakeID)
+                .ToListAsync();
+
+            return new JsonResult(models);
+        }
+        /* public async Task<JsonResult> OnGetCarModels2(int id)
+         {
+             var ptwrscList = await (from a in _context.CarModels
+                                     where a.MakeId == id
+                                     select a).ToListAsync();
+
+             return new JsonResult(new SelectList(ptwrscList, "id", "name"));
+         }*/
+
+        /* public async Task<int> OnGetCarModels2()
+         {
+             DayOfWeek today = await Task.FromResult(DateTime.Now.DayOfWeek);
+
+             int leisureHours =
+                 today is DayOfWeek.Saturday || today is DayOfWeek.Sunday
+                 ? 16 : 5;
+
+             return leisureHours;
+         }*/
     }
 }

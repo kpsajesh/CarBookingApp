@@ -18,6 +18,13 @@
                 <input asp-for="CarModel.Name" class="form-control" />
                 <span asp-validation-for="CarModel.Name" class="text-danger"></span>
             </div>
+            <div class="form-group">
+                <label asp-for="CarModel.MakeId" class="control-label"></label>
+                <select class="form-control" asp-for="CarModel.MakeId" asp-items="Model.Makes">
+                    <option>Select Make</option>
+                </select>
+                <span asp-validation-for="CarModel.MakeId" class="text-danger"></span>
+            </div>
             <input type="hidden" asp-for="CarModel.Id" />
             <div class="form-group">
                 <label asp-for="CarModel.CreatedBy" class="control-label"></label>

@@ -12,15 +12,14 @@
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
                 <label asp-for="Cars.MakeId" class="control-label"></label>
-                <select class="form-control" asp-for="Cars.MakeId" asp-items="Model.Makes">
+                <select id="DDLCarMake" class="form-control" asp-for="Cars.MakeId" asp-items="Model.Makes">
                     <option>Select Make</option>
                 </select>
                 <span asp-validation-for="Cars.MakeId" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="Cars.CarModelId" class="control-label"></label>
-                <select class="form-control" asp-for="Cars.CarModelId" asp-items="Model.CarModels">
-                    <option>Select Style</option>
+                <select id="DDLCarModel" class="form-control" asp-for="Cars.CarModelId">
                 </select>
                 <span asp-validation-for="Cars.CarModelId" class="text-danger"></span>
             </div>
@@ -68,4 +67,41 @@
 
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    
+<script>
+    $('#DDLCarMake').change(function () {
+        var CarMakeID = $(this).val();
+        console.log(CarMakeID);
+        $('#DDLCarModel').html('<option>Select Model</option>');
+
+        $.getJSON('Edit?handler=CarModels', { CarMakeID: CarMakeID }, function (data) {
+            console.log(data);
+
+            $.each(data, function (key, value) {
+                var option = $('<option></option>').attr('value', value.id).text(value.name);
+                
+                $('#DDLCarModel').append(option);
+            });
+        });
+    });
+
+    $(document).ready(function () {
+        var CarMakeID = $('#DDLCarMake :selected').val();
+        console.log(CarMakeID);
+        $('#DDLCarModel').html('<option>Select Model</option>');
+
+        $.getJSON('Edit?handler=CarModels', { CarMakeID: CarMakeID }, function (data) {
+            console.log(data);
+
+            $.each(data, function (key, value) {
+                var option = $('<option></option>').attr('value', value.id).text(value.name);
+                if (value.id == @Model.Cars.CarModelId) {
+                    option.prop('selected', true);
+                }
+
+                $('#DDLCarModel').append(option);
+            });
+        });
+    });
+</script>
 }

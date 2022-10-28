@@ -21,6 +21,7 @@ namespace CarBookingApp.Pages.CarModels
 
         [BindProperty]
         public CarModel CarModel { get; set; }
+        public SelectList Makes { get; private set; }
 
         public async Task<IActionResult> OnGetAsync(int? id)
         {
@@ -35,6 +36,8 @@ namespace CarBookingApp.Pages.CarModels
             {
                 return NotFound();
             }
+
+            await LoadDDL();
             return Page();
         }
 
@@ -44,6 +47,7 @@ namespace CarBookingApp.Pages.CarModels
         {
             if (!ModelState.IsValid)
             {
+                await LoadDDL();
                 return Page();
             }
 
@@ -73,6 +77,10 @@ namespace CarBookingApp.Pages.CarModels
         private bool CarModelExists(int id)
         {
             return _context.CarModels.Any(e => e.Id == id);
+        }
+        private async Task LoadDDL()
+        {
+            Makes = new SelectList(await _context.Makes.ToListAsync(), "Id", "Name");
         }
     }
 }

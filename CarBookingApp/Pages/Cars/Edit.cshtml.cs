@@ -92,5 +92,13 @@ namespace CarBookingApp.Pages.Cars
             Styles = new SelectList(await _context.Styles.ToListAsync(), "Id", "Name");
             CarModels = new SelectList(await _context.CarModels.ToListAsync(), "Id", "Name");
         }
+        public async Task<JsonResult> OnGetCarModels(int CarMakeID)
+        {
+            var models = await _context.CarModels
+                .Where(q => q.MakeId == CarMakeID)
+                .ToListAsync();
+
+            return new JsonResult(models);
+        }
     }
 }

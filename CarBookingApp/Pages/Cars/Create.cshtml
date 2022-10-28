@@ -12,15 +12,15 @@
             <div asp-validation-summary="All" class="text-danger"></div>
             <div class="form-group">
                 <label asp-for="Car.MakeId" class="control-label"></label>
-                <select class="form-control" asp-for="Car.MakeId" asp-items="Model.Makes">
+                <select id="DDLCarMake" class="form-control" asp-for="Car.MakeId" asp-items="Model.Makes">
                     <option>Select Make</option>
                 </select>
                 <span asp-validation-for="Car.MakeId" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="Car.CarModelId" class="control-label"></label>
-                <select class="form-control" asp-for="Car.CarModelId" asp-items="Model.CarModels">
-                    <option>Select Model</option>
+                <select id="DDLCarModel" class="form-control" asp-for="Car.CarModelId">
+                    <option>Select Make First</option>
                 </select>
                 <span asp-validation-for="Car.CarModelId" class="text-danger"></span>
             </div>
@@ -47,7 +47,7 @@
                 <span asp-validation-for="Car.RegnNo" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <button class="btn btn-success" type="submit">
+                <button id="btnSubmit" class="btn btn-success" type="submit">
                     <i class="fa fa-save" aria-hidden="true"></i> Create
                 </button>
                 <a class="btn btn-outline-primary" asp-page="Index"> <i class="fa fa-arrow-left" aria-hidden="true"></i>&nbsp;Back to List</a>
@@ -57,9 +57,40 @@
 </div>
 
 <div>
-    
+
 </div>
 
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+   
+<script>
+    $('#DDLCarMake').change(function () {
+        var CarMakeID = $(this).val();
+        console.log(CarMakeID);
+        $('#DDLCarModel').html('<option>Select Model</option>');
+
+        @*Can be used- WORKING
+        $("#DDLCarModel").empty();
+        $("#DDLCarModel").append("<option value=''>Select Model</option>");*@
+
+        $.getJSON('Create?handler=CarModels', { CarMakeID: CarMakeID }, function (data) {
+            console.log(data);           
+            $.each(data, function (i, item) {
+                $("select#DDLCarModel").append(`<option value="${item.id}">${item.name}</option>`);
+            });
+
+            @*Can be used -WORKING
+             $.each(data, function (key, value) {
+                var option = $('<option></option>').attr('value', value.id).text(value.name);
+                $('#DDLCarModel').append(option);
+            });*@
+
+            @*Can be used, BUT NOT WORKING
+            $.each(data, function (i, product) {
+                Items += "<option value= '" + product.value + "'>" + product.text + "</option >";
+                $('#DDLCarModel').html(items);
+            });*@
+        });
+    });
+</script>
 }

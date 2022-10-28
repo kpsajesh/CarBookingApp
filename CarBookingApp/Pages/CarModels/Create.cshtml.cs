@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using CareBookingAppData;
+using Microsoft.EntityFrameworkCore;
 
 namespace CarBookingApp.Pages.CarModels
 {
@@ -18,21 +19,25 @@ namespace CarBookingApp.Pages.CarModels
             _context = context;
         }
 
-        public IActionResult OnGet()
+        public async Task<IActionResult> OnGet()
         {
+            await LoadDDL();
             return Page();
         }
 
         [BindProperty]
         public CarModel CarModel { get; set; }
+        public SelectList Makes { get; private set; }
 
         // To protect from overposting attacks, see https://aka.ms/RazorPagesCRUD
         public async Task<IActionResult> OnPostAsync()
         {
             if (!ModelState.IsValid)
             {
+                await LoadDDL();
                 return Page();
             }
+
 
             CarModel.CreatedBy = "Sajesh";
             CarModel.CreatedDate = DateTime.Now;
@@ -42,5 +47,10 @@ namespace CarBookingApp.Pages.CarModels
 
             return RedirectToPage("./Index");
         }
+        private async Task LoadDDL()
+        {
+            Makes = new SelectList(await _context.Makes.ToListAsync(), "Id", "Name");
+        }
     }
+
 }

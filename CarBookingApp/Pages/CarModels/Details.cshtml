@@ -18,6 +18,12 @@
             @Html.DisplayFor(model => model.CarModel.Name)
         </dd>
         <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.CarModel.Make)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.CarModel.Make.Name)
+        </dd>
+        <dt class="col-sm-2">
             @Html.DisplayNameFor(model => model.CarModel.CreatedBy)
         </dt>
         <dd class="col-sm-10">
