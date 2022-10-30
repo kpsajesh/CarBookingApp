@@ -22,7 +22,8 @@ namespace CarBookingApp.Pages.Cars
 
         public async Task OnGetAsync()
         {
-            Car = await _context.Cars.ToListAsync();
+            await fnLoad();
+            //Car = await _context.Cars.ToListAsync();
         }
         public async Task<IActionResult> OnPostDelete5Async(int? CarId)
         {
@@ -40,6 +41,23 @@ namespace CarBookingApp.Pages.Cars
             }
 
             return RedirectToPage("./Index");
+        }
+
+        public async Task OnPostDelete6()
+        {
+            await fnLoad();
+        }
+        public async Task OnPostDelete7()
+        {
+            await fnLoad();
+        }
+        public async Task OnPostDelete8()
+        {
+            await fnLoad();
+        }
+        public async Task fnLoad()
+        {
+            Car = await _context.Cars.ToListAsync();
         }
     }
 }

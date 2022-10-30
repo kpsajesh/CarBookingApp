@@ -1,4 +1,6 @@
-﻿function fnLoadChildDDl(PrimaryDDL, ChildDDl, SelectMsg, URL)
+﻿var ParamPassed = document.currentScript.getAttribute('PramFrom');
+
+function fnLoadChildDDl(PrimaryDDL, ChildDDl, SelectMsg, URL)
 {
     var PrimaryDDLPK = $('#' + PrimaryDDL).val();
 
@@ -15,7 +17,7 @@
 function fnLoadChildDDlSelected(PrimaryDDL, ChildDDl, SelectMsg, URL, hdnCtrl)
 {
     var PrimaryDDLPK = $('#' + PrimaryDDL).val();
-    var ChildIdtoSelect = $('#' + hdnCtrl).val();
+    var ChildIdtoSelect = ParamPassed;//$('#' + hdnCtrl).val();
 
     $('#' + ChildDDl).html('<option>' + SelectMsg + '</option>');
 
@@ -31,3 +33,4 @@ function fnLoadChildDDlSelected(PrimaryDDL, ChildDDl, SelectMsg, URL, hdnCtrl)
         });
     });
 }
+

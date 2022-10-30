@@ -30,14 +30,14 @@ namespace CarBookingApp.Pages.Cars
                 .Include(q => q.CarModel)
                 .ToListAsync();
         }
-        public async Task<IActionResult> OnPostDelete5Async(int? CarId)
+        public async Task<IActionResult> OnPostDelete5Async(int? RecordId)
         {
-            if (CarId == null)
+            if (RecordId == null)
             {
                 return NotFound();
             }
 
-            var Car = await _context.Cars.FindAsync(CarId);
+            var Car = await _context.Cars.FindAsync(RecordId);
 
             if (Car != null)
             {

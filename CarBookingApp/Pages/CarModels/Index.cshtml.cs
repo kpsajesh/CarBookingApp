@@ -18,7 +18,7 @@ namespace CarBookingApp.Pages.CarModels
             _context = context;
         }
 
-        public IList<CarModel> CarModel { get;set; }
+        public IList<CarModel> CarModel { get; set; }
 
         public async Task OnGetAsync()
         {
@@ -26,5 +26,23 @@ namespace CarBookingApp.Pages.CarModels
                 .Include(m => m.Make)
                 .ToListAsync();
         }
+        public async Task<IActionResult> OnPostDelete5Async(int? RecordId)
+        {
+            if (RecordId == null)
+            {
+                return NotFound();
+            }
+
+            var CarModel = await _context.CarModels.FindAsync(RecordId);
+
+            if (CarModel != null)
+            {
+                _context.CarModels.Remove(CarModel);
+                await _context.SaveChangesAsync();
+            }
+
+            return RedirectToPage("./Index");
+        }
+
     }
 }

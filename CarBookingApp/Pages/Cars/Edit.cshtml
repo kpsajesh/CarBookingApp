@@ -57,10 +57,7 @@
             </div>
             <div class="form-group">
                 @*<input type="submit" value="Save" class="btn btn-warning"  />*@
-                <button class="btn btn-warning" type="submit">
-                    <i class="fa fa-save" aria-hidden="true"></i> Save
-                </button>
-                <a class="btn btn-outline-primary" asp-page="Index"> <i class="fa fa-arrow-left" aria-hidden="true"></i>&nbsp;Back to List</a>
+                <partial name="_EditButtonPartial" />
             </div>
         </form>
     </div>
@@ -68,7 +65,7 @@
 
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
-    <script src="~/js/CascadingDdlCarScript.js" modelId="2"></script>
+    <script src="~/js/CascadingDdlCarScript.js" PramFrom="@Model.Cars.CarModelId"></script>
 
 
     <script>

@@ -8,10 +8,9 @@
 <h1>Index</h1>
 
 <p>
-    <a class="btn btn-primary" asp-page="Create">
-        <i class="fa fa-add" aria-hidden="true"></i> Create New
-    </a>
+    <partial name="_IndexCreateButtonPartial" />
 </p>
+
 <table class="table" id="tblData">
     <thead>
         <tr>
@@ -59,58 +58,54 @@
                     @Html.DisplayFor(modelItem => item.RegnNo)
                 </td>
                 <td>
-                    
-                        <a class="btn btn-warning" asp-page="./Edit" asp-route-id="@item.Id">
-                            <i class="fa fa-edit" aria-hidden="true"></i>&nbsp;Edit
-                        </a>
-                        <a class="btn btn-info" asp-page="./Details" asp-route-id="@item.Id">
-                            <i class="fa fa-book-open" aria-hidden="true"></i>&nbsp;Details
-                        </a>
-                        <button class="btn btn-danger deleteBtn" data-id="@item.Id" data-name="@item.RegnNo">
-                            <i class="fa fa-trash" aria-hidden="true"></i>&nbsp;Delete
-                        </button>
-                        <a asp-page="./Delete" asp-route-id="@item.Id">Delete</a>
+                    @await Html.PartialAsync("_IndexButtonsPartial", item.Id)
+                    @*<button class="btn btn-danger deleteBtn" data-id="@item.Id" data-name="@item.RegnNo"></button>*@
+                    <a asp-page="./Delete" asp-route-id="@item.Id">Delete</a>
                 </td>
             </tr>
         }
     </tbody>
 </table>
 
-<form id="deleteForm" asp-page-handler="Delete5" method="post">
-    <input type="hidden" name="carid" id="carid"/>
-</form>
-    
 @*<form asp-page-handler="Delete5" method="post" asp-route-CarId="@item.Id">
-    <button class="btn btn-danger" onclick="return confirm('Are you sure to delete car @item.Name?')">
-        <i class="fa fa-trash" aria-hidden="true"></i>&nbsp;Delete Jscr
-    </button>
-</form>*@
+        <button class="btn btn-danger" onclick="return confirm('Are you sure to delete car @item.Name?')">
+            <i class="fa fa-trash" aria-hidden="true"></i>&nbsp;Delete Jscr
+        </button>
+    </form>*@
 
-    @section Scripts {
-        @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+<partial name="_IndexDeleteFormPartial" />
 
-        <script>
-            $(function () {
-                $('.deleteBtn').click(function (e) { // enters to this function when a button is click having the class "deleteBtn"
-                    var btn = $(this);
-                    var name = btn.data("name")
 
-                    swal({
-                        title: "Delete?", // sweet alert parameters
-                        text: "Are you sure to delete car Regn.No:" + name +"?",
-                        icon: "warning",
-                        buttons: true,
-                        dangerMode: true
-                    }).then((confirm) => { // enters if clicked OK in the sweet alert
-                        if (confirm) {
-                            var id = btn.data("id") @*We have assigned the primary key as @item.Id in the button, so it will be bound to each button as id and this primary key and it is fetching.*@
-                            $('#carid').val(id); //The primary key is assigning to the hidden control
-                            $('#deleteForm').submit(); // submitting the form
-                            var id = btn.data("name")
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    <script src="~/js/DeleteIndexOption.js"></script>
 
-                        }
-                    });
-                });
+    <script>
+    @*$(function () {
+        $('.deleteBtn').click(function (e) { // enters to this function when a button is click having the class "deleteBtn"
+            var btn = $(this);
+            var name = "";
+            //name = btn.data("name")
+
+            swal({
+                title: "Delete?", // sweet alert parameters
+                text: "Are you sure to delete?",
+                icon: "warning",
+                buttons: true,
+                dangerMode: true
+            }).then((confirm) => { // enters if clicked OK in the sweet alert
+                if (confirm) {
+                    var id = btn.data("id") // We have assigned the primary key as item.Id in the button, so it will be bound to each button as id and this primary key and it is fetching.*
+                    $('#RecordId').val(id); //The primary key is assigning to the hidden control
+                    $('#deleteForm').submit(); // submitting the form
+                    //var id = btn.data("name")
+
+                }
             });
-        </script>
-    }
+        });
+    });*@
+    </script>
+
+
+}
+

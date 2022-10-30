@@ -19,11 +19,28 @@ namespace CarBookingApp.Pages.Styles
             _context = context;
         }
 
-        public IList<Style> Style { get;set; }
+        public IList<Style> Styles { get;set; }
 
         public async Task OnGetAsync()
         {
-            Style = await _context.Styles.ToListAsync();
+            Styles = await _context.Styles.ToListAsync();
+        }
+        public async Task<IActionResult> OnPostDelete5Async(int? RecordId)
+        {
+            if (RecordId == null)
+            {
+                return NotFound();
+            }
+
+            var Style = await _context.Styles.FindAsync(RecordId);
+
+            if (Style != null)
+            {
+                _context.Styles.Remove(Style);
+                await _context.SaveChangesAsync();
+            }
+
+            return RedirectToPage("./Index");
         }
     }
 }

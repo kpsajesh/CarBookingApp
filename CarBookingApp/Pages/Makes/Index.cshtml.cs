@@ -25,5 +25,22 @@ namespace CarBookingApp.Pages.Makes
         {
             Make = await _context.Makes.ToListAsync();
         }
+        public async Task<IActionResult> OnPostDelete5Async(int? RecordId)
+        {
+            if (RecordId == null)
+            {
+                return NotFound();
+            }
+
+            var Make = await _context.Makes.FindAsync(RecordId);
+
+            if (Make != null)
+            {
+                _context.Makes.Remove(Make);
+                await _context.SaveChangesAsync();
+            }
+
+            return RedirectToPage("./Index");
+        }
     }
 }
