@@ -24,7 +24,7 @@ namespace CarBookingAppRepositories.Repositories
                 .Include(q => q.Make)
                 .Include(q => q.Style)
                 .Include(q => q.CarModel)
-               .ToListAsync(); ;
+               .ToListAsync(); 
         }
 
         public async Task<Car> GetCarWithDetails(int id)
@@ -34,6 +34,19 @@ namespace CarBookingAppRepositories.Repositories
                 .Include(q => q.Style)
                 .Include(q => q.CarModel)
                 .FirstOrDefaultAsync(m => m.Id == id);
+        }
+
+        public async Task<bool> IsNumberPlateExists(string Numberplate)
+        {
+            return await _context.Cars.AnyAsync(e => e.RegnNo.ToLower().Trim() == Numberplate.ToLower().Trim());
+        }
+
+        public async Task<bool> IsNumberPlateExistsEdit(string Numberplate, int id)
+        {
+            return await _context.Cars.AnyAsync(e => e.RegnNo.ToLower().Trim() == Numberplate.ToLower().Trim());
+
+            //var Filterdata=_context.GetA
+                ;
         }
     }
 }

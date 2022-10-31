@@ -11,5 +11,7 @@ namespace CarBookingAppRepositories.Contracts
     {
         Task<Car> GetCarWithDetails(int id);
         Task<List<Car>> GetCarsWithDetails();
+        Task<bool> IsNumberPlateExists(string Numberplate);
+        Task<bool> IsNumberPlateExistsEdit(string Numberplate, int id);
     }
 }

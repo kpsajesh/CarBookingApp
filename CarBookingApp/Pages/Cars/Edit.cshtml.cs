@@ -23,12 +23,12 @@ namespace CarBookingApp.Pages.Cars
             _context = context;
         }*/
         //This is the repository code
-        private readonly IGenericRepository<Car> _carRepository;
+        private readonly ICarRepository _carRepository;
         private readonly IGenericRepository<Make> _carMakeRepository;
         private readonly ICarModelRepository _carModelRepository;
         private readonly IGenericRepository<Style> _carSyleRepository;
 
-        public EditModel(IGenericRepository<Car> CarRepository,
+        public EditModel(ICarRepository CarRepository,
             IGenericRepository<Make> CarMakeRepository,
             ICarModelRepository CarModelRepository,
             IGenericRepository<Style> CarSyleRepository
@@ -75,6 +75,11 @@ namespace CarBookingApp.Pages.Cars
         // For more details, see https://aka.ms/RazorPagesCRUD.
         public async Task<IActionResult> OnPostAsync()
         {
+
+            /*if (await _carRepository.IsNumberPlateExists(Cars.RegnNo))
+            {
+                ModelState.AddModelError(nameof(Cars.RegnNo), "License plate number exists already.");
+            }*/
             if (!ModelState.IsValid)
             {
                 /*Makes = new SelectList(_context.Makes.ToList(), "Id", "Name");
