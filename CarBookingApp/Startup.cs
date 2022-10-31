@@ -10,6 +10,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
+using CarBookingAppRepositories.Repositories;
+using CarBookingAppRepositories.Contracts;
 
 namespace CarBookingApp
 {
@@ -29,6 +31,15 @@ namespace CarBookingApp
                 options.UseSqlServer(
                     Configuration.GetConnectionString("DefaultConnection"));
             });
+
+            services.AddScoped(typeof(IGenericRepository<>), typeof(GenericRepository<>));// ie the type of interface IGenericRepository implemented with the class GenericRepository
+            services.AddScoped<ICarModelRepository, CarModelRepository>();// This is the Syntax when the interface and implemantion registered in the IoC container
+            services.AddScoped<ICarRepository, CarRepository>();// This is the Syntax when the interface and implemantion registered in the IoC container
+
+            //Anything related to DB operations, make it scoped.
+            //Injection Model: AddSingleton - Create only one instance for entire application - Logging to a text file
+            //Injection Model: AddScoped - Create one instance till it carry out its operation/set of operations
+            //Injection Model: AddTransient - Create one instance with each operation - Sending emails, ie multiple emails to be sent at a time, then multiple instnace to be needed
 
             services.AddRazorPages();
         }

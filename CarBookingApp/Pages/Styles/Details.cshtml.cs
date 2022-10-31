@@ -7,16 +7,24 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
 using CarBookingAppData;
 using CareBookingAppData;
+using CarBookingAppRepositories.Contracts;
 
 namespace CarBookingApp.Pages.Styles
 {
     public class DetailsModel : PageModel
     {
+        /*//Before Adding Repository
         private readonly CareBookingAppData.CarBookingAppDbContext _context;
 
-        public DetailsModel(CareBookingAppData.CarBookingAppDbContext context)
+        public CreateModel(CareBookingAppData.CarBookingAppDbContext context)
         {
-            _context = context;
+        _context = context;
+        }*/
+
+        private readonly IGenericRepository<Style> _repository;
+        public DetailsModel(IGenericRepository<Style> repository)
+        {
+            this._repository = repository;
         }
 
         public Style Style { get; set; }
@@ -28,7 +36,9 @@ namespace CarBookingApp.Pages.Styles
                 return NotFound();
             }
 
-            Style = await _context.Styles.FirstOrDefaultAsync(m => m.Id == id);
+            /*//Before Adding Repository
+            Style = await _context.Style.FirstOrDefaultAsync(m => m.Id == id);*/
+            Style = await _repository.Get(id.Value);
 
             if (Style == null)
             {

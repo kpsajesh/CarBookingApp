@@ -8,19 +8,26 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using CarBookingAppData;
 using CareBookingAppData;
+using CarBookingAppRepositories.Contracts;
 
 namespace CarBookingApp.Pages.Makes
 {
     public class EditModel : PageModel
     {
-        private readonly CareBookingAppData.CarBookingAppDbContext _context;
+        /*//Before Adding Repository
+       private readonly CareBookingAppData.CarBookingAppDbContext _context;
 
-        public EditModel(CareBookingAppData.CarBookingAppDbContext context)
+       public CreateModel(CareBookingAppData.CarBookingAppDbContext context)
+       {
+       _context = context;
+       }*/
+
+        private readonly IGenericRepository<Make> _repository;
+        public EditModel(IGenericRepository<Make> repository)
         {
-            _context = context;
+            this._repository = repository;
         }
 
-        DateTime dtCreatedDate;
 
         [BindProperty]
         public Make Make { get; set; }
@@ -32,7 +39,7 @@ namespace CarBookingApp.Pages.Makes
                 return NotFound();
             }
 
-            Make = await _context.Makes.FirstOrDefaultAsync(m => m.Id == id);
+            Make = await _repository.Get(id.Value);
 
             if (Make == null)
             {
@@ -51,17 +58,22 @@ namespace CarBookingApp.Pages.Makes
             }
 
             Make.UpdatedBy= "Sajesh";
-            Make.UpdatedDate = DateTime.Now;
+            Make.CreatedBy = "Sajesh";
+            //Make.UpdatedDate = DateTime.Now;
 
+            /*//Before Adding Repository
             _context.Attach(Make).State = EntityState.Modified;
+            //No codes added here*/
 
             try
             {
-                await _context.SaveChangesAsync();
+                await _repository.Update(Make);
             }
             catch (DbUpdateConcurrencyException)
             {
-                if (!MakeExists(Make.Id))
+                /*//Before Adding Repository
+                if (!MakeExists(Make.Id))*/
+                if (! await MakeExistsAsync(Make.Id))
                 {
                     return NotFound();
                 }
@@ -74,9 +86,14 @@ namespace CarBookingApp.Pages.Makes
             return RedirectToPage("./Index");
         }
 
+        /*//Before Adding Repository
         private bool MakeExists(int id)
         {
             return _context.Makes.Any(e => e.Id == id);
+        }*/
+        private async Task<bool> MakeExistsAsync(int id)
+        {
+            return await _repository.Exists(id);
         }
     }
 }

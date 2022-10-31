@@ -6,16 +6,23 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
 using CareBookingAppData;
+using CarBookingAppRepositories.Contracts;
 
 namespace CarBookingApp.Pages.Cars
 {
     public class IndexModel : PageModel
     {
+        /*//Before Adding Repository
         private readonly CareBookingAppData.CarBookingAppDbContext _context;
 
         public IndexModel(CareBookingAppData.CarBookingAppDbContext context)
         {
             _context = context;
+        }*/
+        private readonly ICarRepository _carRepository;
+        public IndexModel(ICarRepository CarRepository)
+        {
+            _carRepository = CarRepository;
         }
 
         public IList<Car> Cars { get;set; }
@@ -24,12 +31,16 @@ namespace CarBookingApp.Pages.Cars
         public async Task OnGetAsync()
         {
             //Cars = await _context.Cars.ToListAsync();
+
+            /*//Before Adding Repository
             Cars = await _context.Cars
                 .Include(q=> q.Make)
                 .Include(q => q.Style)
                 .Include(q => q.CarModel)
-                .ToListAsync();
+                .ToListAsync();*/
+            Cars = await _carRepository.GetCarsWithDetails();
         }
+        /*//Before Adding Repository
         public async Task<IActionResult> OnPostDelete5Async(int? RecordId)
         {
             if (RecordId == null)
@@ -46,7 +57,18 @@ namespace CarBookingApp.Pages.Cars
             }
 
             return RedirectToPage("./Index");
+        }*/
+        public async Task<IActionResult> OnPostDelete5Async(int? RecordId)
+        {
+            if (RecordId == null)
+            {
+                return NotFound();
+            }
+
+            await _carRepository.Delete(RecordId.Value);
+
+            return RedirectToPage("./Index");
         }
-        
+
     }
 }

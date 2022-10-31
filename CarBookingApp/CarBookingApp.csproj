@@ -20,7 +20,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\CareBookingAppData\CarBookingAppData.csproj" />
+    <ProjectReference Include="..\CarBookingApp.Repositories\CarBookingAppRepositories.csproj" />
   </ItemGroup>
 
 </Project>

@@ -7,16 +7,26 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using CarBookingAppData;
 using CareBookingAppData;
+using CarBookingAppRepositories.Contracts;
 
 namespace CarBookingApp.Pages.Makes
 {
     public class CreateModel : PageModel
     {
+        
+
+        /* Before Adding Repository
         private readonly CareBookingAppData.CarBookingAppDbContext _context;
 
         public CreateModel(CareBookingAppData.CarBookingAppDbContext context)
         {
-            _context = context;
+        _context = context;
+        }*/
+
+        private readonly IGenericRepository<Make> _repository;
+        public CreateModel(IGenericRepository<Make> repository)
+        {            
+            this._repository = repository;
         }
 
         public IActionResult OnGet()
@@ -28,6 +38,9 @@ namespace CarBookingApp.Pages.Makes
         public Make Make { get; set; }
 
         // To protect from overposting attacks, see https://aka.ms/RazorPagesCRUD
+
+        
+        /*Before Adding Repository
         public async Task<IActionResult> OnPostAsync()
         {
             if (!ModelState.IsValid)
@@ -40,6 +53,20 @@ namespace CarBookingApp.Pages.Makes
 
             _context.Makes.Add(Make);
             await _context.SaveChangesAsync();
+
+            return RedirectToPage("./Index");
+        }*/
+        public async Task<IActionResult> OnPostAsync()
+        {
+            if (!ModelState.IsValid)
+            {
+                return Page();
+            }
+
+            Make.CreatedBy = "Sajesh";
+            //Make.CreatedDate = DateTime.Now;
+
+            await _repository.Insert(Make);
 
             return RedirectToPage("./Index");
         }

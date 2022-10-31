@@ -7,16 +7,29 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using CareBookingAppData;
+using CarBookingAppRepositories.Contracts;
+using CarBookingAppData;
 
 namespace CarBookingApp.Pages.CarModels
 {
     public class EditModel : PageModel
     {
+
+
+        /*//Before Adding Repository
         private readonly CareBookingAppData.CarBookingAppDbContext _context;
 
         public EditModel(CareBookingAppData.CarBookingAppDbContext context)
         {
             _context = context;
+        }*/
+
+        private readonly IGenericRepository<CarModel> _carModelRepository;
+        private readonly IGenericRepository<Make> _carMakeRepository;
+        public EditModel(IGenericRepository<CarModel> CarModelRepository, IGenericRepository<Make> CarMakeRepository)
+        {
+            this._carModelRepository = CarModelRepository;
+            this._carMakeRepository = CarMakeRepository;
         }
 
         [BindProperty]
@@ -30,7 +43,10 @@ namespace CarBookingApp.Pages.CarModels
                 return NotFound();
             }
 
-            CarModel = await _context.CarModels.FirstOrDefaultAsync(m => m.Id == id);
+            /*//Before Adding Repository
+            CarModel = await _context.CarModels.FirstOrDefaultAsync(m => m.Id == id);*/
+
+            CarModel = await _carModelRepository.Get(id.Value);
 
             if (CarModel == null)
             {
@@ -52,16 +68,25 @@ namespace CarBookingApp.Pages.CarModels
             }
 
             CarModel.UpdatedBy = "Sajesh";
-            CarModel.UpdatedDate = DateTime.Now;
+            CarModel.CreatedBy = "Sajesh";
+            //CarModel.UpdatedDate = DateTime.Now;
+
+            /*//Before Adding Repository
             _context.Attach(CarModel).State = EntityState.Modified;
+            //NoContentResult code added here*/
 
             try
             {
-                await _context.SaveChangesAsync();
+                /*//Before Adding Repository
+                await _context.SaveChangesAsync();*/
+
+                await _carModelRepository.Update(CarModel);
             }
             catch (DbUpdateConcurrencyException)
             {
-                if (!CarModelExists(CarModel.Id))
+                /*//Before Adding Repository
+                if (!CarModelExists(CarModel.Id))*/ // Changed to Async
+                if (!await CarModelExistsAsync(CarModel.Id))
                 {
                     return NotFound();
                 }
@@ -74,13 +99,24 @@ namespace CarBookingApp.Pages.CarModels
             return RedirectToPage("./Index");
         }
 
-        private bool CarModelExists(int id)
+        /*//Before Adding Repository
+        private bool CarModelExists(int id) // Changed to Async below
         {
+            
             return _context.CarModels.Any(e => e.Id == id);
+        }*/
+
+        private async Task<bool> CarModelExistsAsync(int id)
+        {
+
+            return await _carModelRepository.Exists(id);
         }
+            
         private async Task LoadDDL()
         {
-            Makes = new SelectList(await _context.Makes.ToListAsync(), "Id", "Name");
+            /*//Before Adding Repository
+            Makes = new SelectList(await _context.Makes.ToListAsync(), "Id", "Name");*/
+            Makes = new SelectList(await _carMakeRepository.GetAll(), "Id", "Name");
         }
     }
 }

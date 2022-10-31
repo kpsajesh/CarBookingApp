@@ -8,16 +8,24 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using CarBookingAppData;
 using CareBookingAppData;
+using CarBookingAppRepositories.Contracts;
 
 namespace CarBookingApp.Pages.Styles
 {
     public class EditModel : PageModel
     {
+        /*//Before Adding Repository
         private readonly CareBookingAppData.CarBookingAppDbContext _context;
 
-        public EditModel(CareBookingAppData.CarBookingAppDbContext context)
+        public CreateModel(CareBookingAppData.CarBookingAppDbContext context)
         {
-            _context = context;
+        _context = context;
+        }*/
+
+        private readonly IGenericRepository<Style> _repository;
+        public EditModel(IGenericRepository<Style> repository)
+        {
+            this._repository = repository;
         }
 
         [BindProperty]
@@ -30,7 +38,9 @@ namespace CarBookingApp.Pages.Styles
                 return NotFound();
             }
 
-            Style = await _context.Styles.FirstOrDefaultAsync(m => m.Id == id);
+            /*//Before Adding Repository
+            Style = await _context.Styles.FirstOrDefaultAsync(m => m.Id == id);*/
+            Style = await _repository.Get(id.Value);
 
             if (Style == null)
             {
@@ -49,17 +59,25 @@ namespace CarBookingApp.Pages.Styles
             }
 
             Style.UpdatedBy = "Sajesh";
-            Style.UpdatedDate = DateTime.Now;
+            Style.CreatedBy = "Sajesh";
+            //Style.UpdatedDate = DateTime.Now;
 
+            /*//Before Adding Repository
             _context.Attach(Style).State = EntityState.Modified;
+            //No codes added here*/
+            
 
             try
             {
-                await _context.SaveChangesAsync();
+                /*//Before Adding Repository
+                await _context.SaveChangesAsync();*/
+                await _repository.Update(Style);
             }
             catch (DbUpdateConcurrencyException)
             {
-                if (!StyleExists(Style.Id))
+                /*//Before Adding Repository
+                if (!StyleExists(Style.Id))*/ // Made to async
+                if (! await StyleExistsAsync(Style.Id))
                 {
                     return NotFound();
                 }
@@ -72,9 +90,14 @@ namespace CarBookingApp.Pages.Styles
             return RedirectToPage("./Index");
         }
 
-        private bool StyleExists(int id)
+        /*//Before Adding Repository
+        private bool StyleExists(int id)// made to Asnyc
         {
             return _context.Styles.Any(e => e.Id == id);
+        }*/
+        private async Task<bool> StyleExistsAsync(int id)
+        {
+            return await _repository.Exists(id);
         }
     }
 }

@@ -12,11 +12,11 @@
     <hr />
     <dl class="row">
         <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.Make.Name)
+            @Html.DisplayNameFor(model => model.Makes.Name)
         </dt>
         <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.Make.Name)
+            @Html.DisplayFor(model => model.Makes.Name)
         </dd>
     </dl>
 </div>
-@await Html.PartialAsync("_DetailsButtonShared", Model.Make.Id)
+@await Html.PartialAsync("_DetailsButtonShared", Model.Makes.Id)

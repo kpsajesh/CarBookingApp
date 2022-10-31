@@ -7,19 +7,27 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
 using CarBookingAppData;
 using CareBookingAppData;
+using CarBookingAppRepositories.Contracts;
 
 namespace CarBookingApp.Pages.Makes
 {
     public class DetailsModel : PageModel
     {
+        /*//efore Adding Repository
         private readonly CareBookingAppData.CarBookingAppDbContext _context;
 
-        public DetailsModel(CareBookingAppData.CarBookingAppDbContext context)
+        public CreateModel(CareBookingAppData.CarBookingAppDbContext context)
         {
-            _context = context;
-        }
+        _context = context;
+        }*/
 
-        public Make Make { get; set; }
+        private readonly IGenericRepository<Make> _repository;
+        public DetailsModel(IGenericRepository<Make> repository)
+        {
+            this._repository = repository;
+        }      
+
+        public Make Makes { get; set; }
 
         public async Task<IActionResult> OnGetAsync(int? id)
         {
@@ -28,9 +36,12 @@ namespace CarBookingApp.Pages.Makes
                 return NotFound();
             }
 
-            Make = await _context.Makes.FirstOrDefaultAsync(m => m.Id == id);
+            /*//Before Adding Repository
+            Make = await _context.Makes.FirstOrDefaultAsync(m => m.Id == id);*/
 
-            if (Make == null)
+            Makes = await _repository.Get(id.Value);
+
+            if (Makes == null)
             {
                 return NotFound();
             }
