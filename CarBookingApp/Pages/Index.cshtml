@@ -4,7 +4,16 @@
     ViewData["Title"] = "Home page";
 }
 
+
 <div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+    <h1 class="display-4">Welcome @Model.Name</h1>
 </div>
+
+<form method="post" asp-page="Index">
+    <div class="form-group" >
+        <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+        <label asp-for="Name"></label>
+        <input asp-for="Name" class="form-control" placeholder="Enter Name" autocomplete="off" />
+    </div>
+    <button type="submit" class="btn btn-primary">Submit</button>
+</form>
