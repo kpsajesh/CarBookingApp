@@ -16,6 +16,7 @@ namespace CareBookingAppData
 
         [Required]
         [Range(1975, 2075)]
+        /*[Range(1975, 2075,ErrorMessage ="Year must be between 1975 & 2075")]*/ //Can add error message explicitely like this.
         public int Year { get; set; }
 
         [Required]
